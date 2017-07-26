@@ -37,7 +37,7 @@ W2 = np.random.rand(10, 2)
 b2 = np.random.rand(1, 2)-0.5
 
 
-lr = 0.0000001
+lr = 0.0001
 for i in range(100):
     x = x_train[i*32:(i+1) * 32]
     y = y_train[i*32:(i+1) * 32]
@@ -49,9 +49,11 @@ for i in range(100):
     softmax = stablesoftmax(rel2)
     #print softmax
     
-    dLDRelu2 = rel2 - softmax
+    dLDRelu2 = rel2 - softmax / 32
     relu2_arr = np.array(z2 > 0, dtype=np.int32)
+    print relu2_arr
     dLDz2 = np.multiply(dLDRelu2, relu2_arr)
+    print dLDz2
     dLDw2 = np.matmul(rel1.transpose(), dLDz2)
     dLRelu1 = np.matmul(dLDz2, W2.transpose())
     relu1_arr = np.array(z1 > 0, dtype=np.int32)
